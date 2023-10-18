@@ -1,8 +1,8 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-const inter = Inter({
+const inter = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
 });

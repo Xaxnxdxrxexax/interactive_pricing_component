@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  background-color: hsl(230, 100%, 99%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  /* Customize the appearance of the thumb on WebKit browsers (Chrome, Safari) */
+  /* Replace 'url(path/to/thumb-image.png)' with your own image path */
+  /* or use other CSS properties to style the thumb */
+  /* e.g., background-color, border, etc. */
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  background-image: url("/images/icon-slider.svg");
+  background-color: hsl(174, 86%, 45%);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: center center;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 15px 30px 1px hsl(174, 86%, 45%);
+}

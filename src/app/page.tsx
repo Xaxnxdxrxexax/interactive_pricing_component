@@ -1,37 +1,96 @@
-import Link from "next/link";
+"use client";
+import Image from "next/image";
+import { useState } from "react";
 
 export default function HomePage() {
+  const [isDiscounted, setIsDiscounted] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(2);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
+    <main className="flex flex-col items-center justify-center px-6 pt-20">
+      <section className="relative mb-16 text-center">
+        <Image
+          src={"/images/pattern-circles.svg"}
+          alt="backround circles"
+          width="146"
+          height="145"
+          className="absolute left-1/2 top-0 -z-10 -translate-x-1/2 -translate-y-1/4 transform"
+        />
+        <h1 className="mb-3 text-xl font-bold">
+          Simple, traffic-based pricing
         </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+        <p className="text-sm text-[hsl(225,_20%,_60%)]">
+          Sign-up for our 30-day-trial.
+        </p>
+        <p className="text-sm text-[hsl(225,_20%,_60%)]">
+          No credit card required.
+        </p>
+      </section>
+      <section className="flex w-full flex-col items-center justify-between gap-5 rounded-2xl border bg-white py-8">
+        <p className="font-semibold text-[hsl(227,_35%,_25%)]">
+          {allValues[selectedValue]?.label} PAGEVIEWS
+        </p>
+        <input
+          type="range"
+          name="billing"
+          id="billing"
+          min="0"
+          max="4"
+          step="1"
+          value={selectedValue}
+          onChange={(e) => setSelectedValue(Number(e.target.value) ?? 2)}
+          className="mt-8 h-2 w-[90%] cursor-pointer appearance-none rounded-full bg-[hsl(224,_65%,_95%)]"
+          style={{
+            background: `linear-gradient(to right, blue 0%, blue ${
+              selectedValue * 25
+            }%, transparent ${selectedValue * 25}%, transparent 100%)`,
+            backgroundRepeat: `no-repeat`,
+          }}
+        />
+        <p className="py-8 text-2xl">
+          <span className="text-5xl font-bold">
+            $
+            {isDiscounted
+              ? allValues[selectedValue]!.price * 0.75
+              : allValues[selectedValue]!.price}
+            {".00"}
+          </span>
+          / month
+        </p>
+        <div className="flex w-full items-center justify-around border">
+          <p>Monthly Billing</p>
+          <input
+            type="checkbox"
+            name="discount"
+            id="discount"
+            onClick={() => setIsDiscounted(!isDiscounted)}
+          />
+          <p>Yearly Billing</p>
+          <p className="text-sm">-25%</p>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
+
+const allValues = [
+  {
+    label: "10K",
+    price: 8,
+  },
+  {
+    label: "50K",
+    price: 12,
+  },
+  {
+    label: "100K",
+    price: 16,
+  },
+  {
+    label: "500K",
+    price: 24,
+  },
+  {
+    label: "1M",
+    price: 36,
+  },
+];
