@@ -9,7 +9,8 @@ export default function HomePage() {
       selectedValue: 2,
     },
   });
-  const registeredValues = watch();
+  const isDiscounted = watch("isDiscounted");
+  const selectedValue = watch("selectedValue");
   return (
     <main className="mx-auto mb-20 flex w-full max-w-xl flex-col items-center justify-center pt-20">
       <Image
@@ -40,7 +41,7 @@ export default function HomePage() {
       </section>
       <section className="mx-6 flex flex-col items-center justify-between gap-5 rounded-2xl bg-white py-8 Fm:mx-0 Fm:w-full Fm:flex-row Fm:flex-wrap Fm:px-12">
         <p className="text-sm font-bold tracking-wider text-gray-400 Fm:order-1">
-          {allValues[registeredValues.selectedValue]?.label} PAGEVIEWS
+          {allValues[selectedValue]?.label} PAGEVIEWS
         </p>
         <input
           type="range"
@@ -48,16 +49,16 @@ export default function HomePage() {
           min="0"
           max="4"
           step="1"
-          value={registeredValues.selectedValue}
+          value={selectedValue}
           {...register("selectedValue", {
             valueAsNumber: true,
           })}
           className="mt-8 h-2 w-[90%] cursor-pointer appearance-none rounded-full bg-[hsl(224,_65%,_95%)] Fm:order-3 Fm:mx-auto Fm:mt-0 Fm:border"
           style={{
             background: `linear-gradient(to right, hsl(174, 77%, 80%) 0%, hsl(174, 77%, 80%) ${
-              registeredValues.selectedValue * 25
+              selectedValue * 25
             }%, hsl(224, 65%, 95%) ${
-              registeredValues.selectedValue * 25
+              selectedValue * 25
             }%, hsl(224, 65%, 95%) 100%)`,
             backgroundRepeat: `no-repeat`,
           }}
@@ -65,9 +66,9 @@ export default function HomePage() {
         <p className="py-8 text-base font-bold text-gray-400 Fm:order-2">
           <span className="mr-2 text-4xl font-bold text-black">
             $
-            {registeredValues.isDiscounted
-              ? allValues[registeredValues.selectedValue]!.price * 0.75
-              : allValues[registeredValues.selectedValue]!.price}
+            {isDiscounted
+              ? allValues[selectedValue]!.price * 0.75
+              : allValues[selectedValue]!.price}
             {".00"}
           </span>
           / month
