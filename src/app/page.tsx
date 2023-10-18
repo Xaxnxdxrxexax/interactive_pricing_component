@@ -1,10 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function HomePage() {
-  const [isDiscounted, setIsDiscounted] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(2);
+  const { register, watch } = useForm({
+    defaultValues: {
+      isDiscounted: false,
+      selectedValue: 2,
+    },
+  });
+  const registeredValues = watch();
   return (
     <main className="mx-auto mb-20 flex w-full max-w-xl flex-col items-center justify-center pt-20">
       <Image
@@ -35,23 +40,24 @@ export default function HomePage() {
       </section>
       <section className="mx-6 flex flex-col items-center justify-between gap-5 rounded-2xl bg-white py-8 Fm:mx-0 Fm:w-full Fm:flex-row Fm:flex-wrap Fm:px-12">
         <p className="text-sm font-bold tracking-wider text-gray-400 Fm:order-1">
-          {allValues[selectedValue]?.label} PAGEVIEWS
+          {allValues[registeredValues.selectedValue]?.label} PAGEVIEWS
         </p>
         <input
           type="range"
-          name="billing"
           id="billing"
           min="0"
           max="4"
           step="1"
-          value={selectedValue}
-          onChange={(e) => setSelectedValue(Number(e.target.value) ?? 2)}
+          value={registeredValues.selectedValue}
+          {...register("selectedValue", {
+            valueAsNumber: true,
+          })}
           className="mt-8 h-2 w-[90%] cursor-pointer appearance-none rounded-full bg-[hsl(224,_65%,_95%)] Fm:order-3 Fm:mx-auto Fm:mt-0 Fm:border"
           style={{
             background: `linear-gradient(to right, hsl(174, 77%, 80%) 0%, hsl(174, 77%, 80%) ${
-              selectedValue * 25
+              registeredValues.selectedValue * 25
             }%, hsl(224, 65%, 95%) ${
-              selectedValue * 25
+              registeredValues.selectedValue * 25
             }%, hsl(224, 65%, 95%) 100%)`,
             backgroundRepeat: `no-repeat`,
           }}
@@ -59,9 +65,9 @@ export default function HomePage() {
         <p className="py-8 text-base font-bold text-gray-400 Fm:order-2">
           <span className="mr-2 text-4xl font-bold text-black">
             $
-            {isDiscounted
-              ? allValues[selectedValue]!.price * 0.75
-              : allValues[selectedValue]!.price}
+            {registeredValues.isDiscounted
+              ? allValues[registeredValues.selectedValue]!.price * 0.75
+              : allValues[registeredValues.selectedValue]!.price}
             {".00"}
           </span>
           / month
@@ -71,9 +77,8 @@ export default function HomePage() {
           <div className="relative flex items-center justify-center ">
             <input
               type="checkbox"
-              name="discount"
               id="discount"
-              onClick={() => setIsDiscounted(!isDiscounted)}
+              {...register("isDiscounted", {})}
               className="peer h-6 w-11 cursor-pointer appearance-none rounded-full bg-[hsl(223,_50%,_87%)] checked:border-gray-900 checked:bg-[hsl(174,_77%,_80%)] hover:bg-[hsl(174,_77%,_80%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2"
             />
             <span className="pointer-events-none absolute left-1 top-1 block h-4 w-4 rounded-full bg-white transition-all duration-200 peer-checked:left-6 peer-checked:bg-white"></span>
